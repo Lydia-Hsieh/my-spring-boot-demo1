@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @PostMapping("/login")
+    @PostMapping("/accountLogin")
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginVo vo) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 

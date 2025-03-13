@@ -1,8 +1,10 @@
 package com.example.my_spring_boot_demo1.entity;
 
+import com.example.my_spring_boot_demo1.controller.loginController.pojo.LoginDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
