@@ -1,6 +1,5 @@
 package com.example.my_spring_boot_demo1.filter;
 
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.my_spring_boot_demo1.controller.loginController.pojo.LoginDto;
 import com.example.my_spring_boot_demo1.dao.repository.AccountRepository;
@@ -12,16 +11,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,11 +29,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private AccountRepository accountRepository;
 
+    private final List<String> EXCLUDE_PATHS = List.of(
+            "/accountLogin",
+            "/register",
+            "/swagger-ui",
+            "/api-docs"
+    );
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String requestURI = request.getRequestURI();
-        if ("/accountLogin".equals(requestURI) || "/register".equals(requestURI)) {
+        if (EXCLUDE_PATHS.stream().anyMatch(requestURI::startsWith)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -55,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
 
-        } catch (JWTVerificationException e) {
+        } catch (Exception e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json");
             response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
