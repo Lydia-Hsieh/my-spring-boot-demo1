@@ -1,25 +1,5 @@
 spring:
-  application:
-    name: my-spring-boot-demo1
-
-## DB connection
-  datasource:
-    url: jdbc:mysql://localhost:3306/db1
-    username: root
-    password: 
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    show-sql: true
-
-## MyBatis
-mybatis:
-  type-aliases-package: com.example.my_spring_boot_demo1.dao.mybatis
-
-## Swagger UI
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    display-request-duration: true
-  packagesToScan: com.example.my_spring_boot_demo1.controller
+  profiles:
+    active: @activeProfiles@
+#    active: dev
+#    active: prod

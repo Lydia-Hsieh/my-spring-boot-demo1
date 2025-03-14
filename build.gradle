@@ -23,6 +23,14 @@ repositories {
 	mavenCentral()
 }
 
+def activeProfiles=project.properties['activeProfiles'] ?: "dev" // set default (dev) profile if no profile is passed as property
+
+processResources {
+	filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+			activeProfiles: activeProfiles
+	]
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
