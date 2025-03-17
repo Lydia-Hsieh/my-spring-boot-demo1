@@ -5,6 +5,9 @@ import com.example.my_spring_boot_demo1.controller.registerController.service.Re
 import com.example.my_spring_boot_demo1.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.MessageSourceResourceBundle;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -20,6 +24,9 @@ public class RegisterController {
 
     @Autowired
     private RegisterService registerService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody AccountVo vo) {
@@ -35,7 +42,10 @@ public class RegisterController {
         }
         if (registerService.checkUserIdIsUsed(userId)) {
             resultMap.put("status", false);
-            resultMap.put("errorMessage", "該帳號已存在，請使用其他帳號名註冊！");
+            resultMap.put("errorMessage",
+                    messageSource.getMessage("register.controller.id.already.exists",
+                            new String[]{userId},
+                            LocaleContextHolder.getLocale()));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultMap);
         }
         if (password == null || !StringUtil.checkPassword(password)) {
