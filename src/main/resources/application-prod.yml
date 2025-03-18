@@ -5,6 +5,7 @@ spring:
 ## DB connection
   datasource:
     url: jdbc:mysql://localhost:3307/db1
+    url: jdbc:mysql://localhost:3307/db1?useUnicode=true&characterEncoding=UTF-8
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,3 +30,9 @@ springdoc:
     path: /swagger-ui.html
     display-request-duration: true
   packagesToScan: com.example.my_spring_boot_demo1.controller
+
+## logging
+logging:
+  level:
+    root: info
+    com.example.my_spring_boot_demo1: debug
