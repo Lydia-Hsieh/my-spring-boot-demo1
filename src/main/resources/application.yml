@@ -1,10 +1,3 @@
-## profiles
-#spring:
-#  profiles:
-#    active: @activeProfiles@
-#    active: dev
-#    active: prod
-
 ## system environment
 server:
   port: ${SERVER_PORT}
@@ -12,6 +5,11 @@ server:
 spring:
   application:
     name: my-spring-boot-demo1
+  # profiles
+  profiles:
+#    active: @activeProfiles@
+    active: dev
+#    active: prod
 
   ## DB connection
   datasource:
@@ -21,6 +19,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+
+  ## i18n
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
 
 ## MyBatis
 mybatis:
@@ -34,3 +37,9 @@ springdoc:
     path: /swagger-ui.html
     display-request-duration: true
   packagesToScan: com.example.my_spring_boot_demo1.controller
+
+## logging
+logging:
+  level:
+    root: info
+    com.example.my_spring_boot_demo1: debug

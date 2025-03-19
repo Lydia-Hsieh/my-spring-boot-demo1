@@ -1,9 +1,8 @@
 package com.example.my_spring_boot_demo1.filter;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.my_spring_boot_demo1.controller.loginController.pojo.LoginDto;
 import com.example.my_spring_boot_demo1.dao.repository.AccountRepository;
-import com.example.my_spring_boot_demo1.entity.Account;
+import com.example.my_spring_boot_demo1.entity.Account_Entity;
 import com.example.my_spring_boot_demo1.util.JwtUtil;
 import com.example.my_spring_boot_demo1.util.UserUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private AccountRepository accountRepository;
 
     private final List<String> EXCLUDE_PATHS = List.of(
-            "/accountLogin",
+            "/account-login",
             "/register",
             "/swagger-ui",
             "/api-docs"
@@ -52,10 +53,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String authToken = authHeader.split("Bearer ")[1];
             userId = JwtUtil.parseToken(authToken);
 
-            Optional<Account> accountOptional = accountRepository.findByUserId(userId);
+            Optional<Account_Entity> accountOptional = accountRepository.findByUserId(userId);
             if (accountOptional.isPresent()) {
-                LoginDto loginDto = new LoginDto(accountOptional.get());
-                UserUtil.setUser(loginDto);
+                Account_Entity account = accountOptional.get();
+                //創建Spring Security的Authentication物件，並存入SecurityContext
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(account, null);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
             filterChain.doFilter(request, response);

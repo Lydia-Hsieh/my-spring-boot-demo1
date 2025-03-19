@@ -1,7 +1,9 @@
 package com.example.my_spring_boot_demo1.controller.clockRecordController;
 
-import com.example.my_spring_boot_demo1.controller.clockRecordController.pojo.ClockRecordVo;
+import com.example.my_spring_boot_demo1.controller.clockRecordController.pojo.ClockRecordRequest;
 import com.example.my_spring_boot_demo1.controller.clockRecordController.service.ClockRecordService;
+import com.example.my_spring_boot_demo1.service.ResponseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,12 @@ public class ClockRecordController {
     @Autowired
     private ClockRecordService clockRecordService;
 
-    @PostMapping("/clockInAndOut")
-    public ResponseEntity<Map<String, Object>> clockInAndOut(@RequestBody ClockRecordVo vo) {
-        Map<String, Object> resultMap = new HashMap<>();
-        clockRecordService.clockInAndOut(vo);
-        resultMap.put("status", true);
-        return ResponseEntity.ok(resultMap);
+    @Autowired
+    private ResponseService responseService;
+
+    @PostMapping("/clock-in-and-out")
+    public ResponseEntity<Map<String, Object>> clockInAndOut(@RequestBody @Valid ClockRecordRequest request) {
+        clockRecordService.clockInAndOut(request);
+        return responseService.ok(new HashMap<>());
     }
 }

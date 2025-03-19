@@ -16,7 +16,7 @@ public class JwtUtil {
     private static final String SECRET_KEY = "";
     private static final int EXPIRE_TIME = 60; //sec
 
-    public static String generateToken(String userId) throws Exception {
+    public static String generateToken(String userId) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         Instant expiresInstant = Instant.now().plusSeconds(EXPIRE_TIME);
         String token = JWT.create()

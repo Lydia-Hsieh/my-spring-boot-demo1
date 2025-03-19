@@ -1,8 +1,10 @@
 package com.example.my_spring_boot_demo1.controller.changePwController;
 
-import com.example.my_spring_boot_demo1.controller.changePwController.pojo.ChangePwVo;
+import com.example.my_spring_boot_demo1.controller.changePwController.pojo.ChangePwRequest;
 import com.example.my_spring_boot_demo1.controller.changePwController.service.ChangePwService;
+import com.example.my_spring_boot_demo1.service.ResponseService;
 import com.example.my_spring_boot_demo1.util.StringUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +21,17 @@ public class ChangePwController {
     @Autowired
     private ChangePwService changePwService;
 
-    @PostMapping("/changePw")
-    public ResponseEntity<Map<String, Object>> changePw(@RequestBody ChangePwVo vo) {
+    @Autowired
+    private ResponseService responseService;
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, Object>> changePw(@RequestBody @Valid ChangePwRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
-
-        //檢核輸入的新密碼格式
-        if (!StringUtil.checkPassword(vo.getPwToChange())) {
-            resultMap.put("status", false);
-            resultMap.put("errorMessage", "密碼需包含英文字母大小寫、數字以及特殊字元，長度至少有8位數！");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultMap);
-        }
-
         try {
-            changePwService.changePw(vo);
-            resultMap.put("status", true);
-            return ResponseEntity.ok(resultMap);
+            changePwService.changePw(request);
+            return responseService.ok(resultMap);
         } catch (Exception e) {
-            resultMap.put("status", false);
-            resultMap.put("errorMessage", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultMap);
+            return responseService.fail(resultMap, HttpStatus.NOT_FOUND.value(), e.getMessage());
         }
     }
 }

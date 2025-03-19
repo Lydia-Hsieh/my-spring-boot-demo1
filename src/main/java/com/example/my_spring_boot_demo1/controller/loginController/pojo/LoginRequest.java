@@ -1,12 +1,15 @@
 package com.example.my_spring_boot_demo1.controller.loginController.pojo;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginVo {
+public class LoginRequest {
 
+    @NotBlank
     private String userId;
+    @NotBlank
     private String password;
 }

@@ -1,7 +1,7 @@
 package com.example.my_spring_boot_demo1.job;
 
 import com.example.my_spring_boot_demo1.controller.clockRecordController.service.ClockRecordService;
-import com.example.my_spring_boot_demo1.entity.Account;
+import com.example.my_spring_boot_demo1.entity.Account_Entity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -26,7 +25,7 @@ public class ClockStatisticsTasks {
 //    @Scheduled(initialDelay = 10, fixedRate = 60, timeUnit = TimeUnit.SECONDS)
 //    @Scheduled(cron = "0 40 13 * * TUE-SAT")
     public void calculateAllClockRecords() {
-        List<Account> users = clockRecordService.getAllUsers();
+        List<Account_Entity> users = clockRecordService.getAllUsers();
         users.forEach(user -> {
             String userId = user.getUserId();
             log.debug("User ID [{}] calculation starts.", userId);
@@ -37,10 +36,10 @@ public class ClockStatisticsTasks {
     /**
      * 使用CompletableFuture管理全部async tasks
      */
-    @Scheduled(cron = "0 8 * * *")
+    @Scheduled(cron = "0 8 12 19 3 WED")
     public void calculateAllClockRecordsWithCompletableFuture() {
         ExecutorService executorService = Executors.newFixedThreadPool(8);
-        List<Account> users = clockRecordService.getAllUsers();
+        List<Account_Entity> users = clockRecordService.getAllUsers();
 
         //非同步計算所有userId的打卡時間差
         List<CompletableFuture<Void>> futures = users.stream()

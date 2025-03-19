@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "CLOCK_RECORD")
 @Getter
 @Setter
-public class ClockRecord implements Serializable {
+public class ClockRecord_Entity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

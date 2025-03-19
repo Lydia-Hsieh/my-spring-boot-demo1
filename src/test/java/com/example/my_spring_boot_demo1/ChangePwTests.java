@@ -1,6 +1,6 @@
 package com.example.my_spring_boot_demo1;
 
-import com.example.my_spring_boot_demo1.controller.changePwController.pojo.ChangePwVo;
+import com.example.my_spring_boot_demo1.controller.changePwController.pojo.ChangePwRequest;
 import com.example.my_spring_boot_demo1.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -30,16 +30,16 @@ public class ChangePwTests {
     @Test
     @Transactional
     public void testChangePw_success() throws Exception {
-        ChangePwVo vo = new ChangePwVo();
+        ChangePwRequest request = new ChangePwRequest();
         String userId = "user_1";
-        vo.setUserId(userId);
-        vo.setPwToChange("User#111");
+        request.setUserId(userId);
+        request.setPwToChange("User#111");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/changePw")
+                .post("/change-password")
                 .contentType("application/json")
                 .header("Authorization", "Bearer " + JwtUtil.generateToken(userId))
-                .content(objectMapper.writeValueAsString(vo));
+                .content(objectMapper.writeValueAsString(request));
 
         mockMvc
                 .perform(requestBuilder)
@@ -52,16 +52,16 @@ public class ChangePwTests {
      */
     @Test
     public void testChangePw_accountNotExists() throws Exception {
-        ChangePwVo vo = new ChangePwVo();
+        ChangePwRequest request = new ChangePwRequest();
         String userId = "user1";
-        vo.setUserId(userId);
-        vo.setPwToChange("User#111");
+        request.setUserId(userId);
+        request.setPwToChange("User#111");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/changePw")
+                .post("/change-password")
                 .contentType("application/json")
                 .header("Authorization", "Bearer " + JwtUtil.generateToken(userId))
-                .content(objectMapper.writeValueAsString(vo));
+                .content(objectMapper.writeValueAsString(request));
 
         mockMvc
                 .perform(requestBuilder)
@@ -74,16 +74,16 @@ public class ChangePwTests {
      */
     @Test
     public void testChangePw_pwInvalid() throws Exception {
-        ChangePwVo vo = new ChangePwVo();
+        ChangePwRequest request = new ChangePwRequest();
         String userId = "user_1";
-        vo.setUserId(userId);
-        vo.setPwToChange("111");
+        request.setUserId(userId);
+        request.setPwToChange("111");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/changePw")
+                .post("/change-password")
                 .contentType("application/json")
                 .header("Authorization", "Bearer " + JwtUtil.generateToken(userId))
-                .content(objectMapper.writeValueAsString(vo));
+                .content(objectMapper.writeValueAsString(request));
 
         mockMvc
                 .perform(requestBuilder)

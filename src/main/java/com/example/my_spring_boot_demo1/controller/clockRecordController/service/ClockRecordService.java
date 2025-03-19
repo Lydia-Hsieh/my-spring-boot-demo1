@@ -1,16 +1,17 @@
 package com.example.my_spring_boot_demo1.controller.clockRecordController.service;
 
-import com.example.my_spring_boot_demo1.controller.clockRecordController.pojo.ClockRecordVo;
+import com.example.my_spring_boot_demo1.controller.clockRecordController.pojo.ClockRecordRequest;
 import com.example.my_spring_boot_demo1.dao.repository.AccountRepository;
 import com.example.my_spring_boot_demo1.dao.repository.ClockRecordRepository;
 import com.example.my_spring_boot_demo1.dao.repository.ClockStatisticsRepository;
-import com.example.my_spring_boot_demo1.entity.Account;
-import com.example.my_spring_boot_demo1.entity.ClockRecord;
-import com.example.my_spring_boot_demo1.entity.ClockStatistics;
+import com.example.my_spring_boot_demo1.entity.Account_Entity;
+import com.example.my_spring_boot_demo1.entity.ClockRecord_Entity;
+import com.example.my_spring_boot_demo1.entity.ClockStatistics_Entity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,26 +35,28 @@ public class ClockRecordService {
 
     /**
      * 打卡
-     * @param vo
+     * @param request
      */
-    public void clockInAndOut(ClockRecordVo vo) {
-        ClockRecord record = new ClockRecord();
-        record.setUserId(vo.getUserId());
-        record.setCreateTime(vo.getCreateTime());
-        record.setRemark(vo.getRemark());
+    @Transactional
+    public void clockInAndOut(ClockRecordRequest request) {
+        ClockRecord_Entity record = new ClockRecord_Entity();
+        record.setUserId(request.getUserId());
+        record.setCreateTime(request.getCreateTime());
+        record.setRemark(request.getRemark());
         clockRecordRepository.save(record);
     }
 
     /**
      * 統計 user 打卡時間差
      */
-    public ClockStatistics countClockStatistics(String userId) {
-        ClockStatistics statistics = new ClockStatistics();
+    @Transactional
+    public ClockStatistics_Entity countClockStatistics(String userId) {
+        ClockStatistics_Entity statistics = new ClockStatistics_Entity();
         statistics.setUserId(userId);
         LocalDate recordDay = LocalDate.now().minusDays(1); //計算前一天的打卡時間差
         statistics.setRecordDay(recordDay);
 
-        Optional<ClockRecord> earliestOptional = clockRecordRepository
+        Optional<ClockRecord_Entity> earliestOptional = clockRecordRepository
                 .findFirstByUserIdAndCreateTimeBetweenOrderByCreateTimeAsc(
                         userId,
                         recordDay.atStartOfDay(),
@@ -86,13 +89,13 @@ public class ClockRecordService {
     }
 
     @Async
-    public CompletableFuture<ClockStatistics> countClockStatisticsAsync(String userId) {
+    public CompletableFuture<ClockStatistics_Entity> countClockStatisticsAsync(String userId) {
         log.debug("Thread: {}", Thread.currentThread().getName());
-        ClockStatistics statistics = countClockStatistics(userId);
+        ClockStatistics_Entity statistics = countClockStatistics(userId);
         return CompletableFuture.completedFuture(statistics);
     }
 
-    public List<Account> getAllUsers() {
+    public List<Account_Entity> getAllUsers() {
         return accountRepository.findAll();
     }
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "CLOCK_STATISTICS")
 @Getter
 @Setter
-public class ClockStatistics implements Serializable {
+public class ClockStatistics_Entity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
