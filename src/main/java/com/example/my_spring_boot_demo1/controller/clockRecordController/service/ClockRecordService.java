@@ -46,6 +46,12 @@ public class ClockRecordService {
         clockRecordRepository.save(record);
     }
 
+    @Transactional
+    public void clockInAndOutForFail(ClockRecordRequest request) {
+        clockInAndOut(request);
+        int j = 1/0; //create situation that must be fail
+    }
+
     /**
      * 統計 user 打卡時間差
      */

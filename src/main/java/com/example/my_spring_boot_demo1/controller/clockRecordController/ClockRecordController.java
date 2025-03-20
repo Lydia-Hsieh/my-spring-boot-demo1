@@ -29,14 +29,7 @@ public class ClockRecordController {
     //一定會失敗的打卡API
     @PostMapping("/clock-must-fail")
     public ResponseEntity<Map<String, Object>> mustFailClock(@RequestBody @Valid ClockRecordRequest request) {
-        try {
-            int j = 1/0; //create situation that must be failed
-            clockRecordService.clockInAndOut(request);
-            return responseService.ok(new HashMap<>());
-        } catch (Exception e) {
-            request.setRemark(e.getMessage());
-            clockRecordService.clockInAndOut(request);
-            throw new RuntimeException(e);
-        }
+        clockRecordService.clockInAndOutForFail(request);
+        return responseService.ok(new HashMap<>());
     }
 }
