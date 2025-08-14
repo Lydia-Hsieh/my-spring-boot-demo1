@@ -44,3 +44,10 @@ logging:
   level:
     root: info
     com.example.my_spring_boot_demo1: debug
+
+## file
+file:
+  path: D:\project_documents\practice\file-ops
+  folder:
+    source: src
+    target: target
