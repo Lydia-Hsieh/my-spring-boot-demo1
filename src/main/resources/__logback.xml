@@ -1,6 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <!-- 設定 Console Appender (只顯示 DEBUG 級別的 log) -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -10,6 +11,7 @@
         </filter>
     </appender>
 
+    <!-- 設定 INFO 級別的檔案 Appender -->
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -24,6 +26,7 @@
         </filter>
     </appender>
 
+    <!-- 設定 ERROR 級別的檔案 Appender -->
     <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -38,6 +41,7 @@
         </filter>
     </appender>
 
+    <!-- 設定 Root Logger -->
     <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="INFO_FILE"/>
@@ -45,4 +49,3 @@
     </root>
 
 </configuration>
-

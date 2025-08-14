@@ -87,6 +87,6 @@ public class ChangePwTests {
 
         mockMvc
                 .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }

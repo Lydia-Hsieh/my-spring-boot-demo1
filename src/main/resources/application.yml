@@ -7,8 +7,9 @@ spring:
     name: my-spring-boot-demo1
   # profiles
   profiles:
-#    active: @activeProfiles@
-    active: dev
+    default: dev
+    active: @activeProfiles@
+#    active: dev
 #    active: prod
 
   ## DB connection
