@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,7 +43,8 @@ public class FileOpsService {
         Path sourceDirectory = locateSourceDirectory();
         log.info("[copyFileFromSourceToTarget] source directory: {}", sourceDirectory.toString());
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceDirectory)) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceDirectory,
+                entry -> SOURCE_FILE_NAME_REGEX.matcher(entry.getFileName().toString()).matches())) {
             for (Path file : stream) {
                 String fileName = file.getFileName().toString();
                 Matcher matcher = SOURCE_FILE_NAME_REGEX.matcher(fileName);
