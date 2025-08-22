@@ -11,12 +11,12 @@ public class MessageProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(String message) {
+    public void sendMessage(String message, String routingKey) {
         rabbitTemplate.convertAndSend(
                 RabbitConfig.EXCHANGE_NAME,
-                RabbitConfig.ROUTING_KEY,
+                routingKey,
                 message
         );
-        System.out.println("[x] Sent '" + message + "'");
+        System.out.println("[x] Sent '" + message + "' with key '" + routingKey + "'");
     }
 }
