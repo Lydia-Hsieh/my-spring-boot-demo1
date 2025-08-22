@@ -27,11 +27,17 @@ public class RabbitController {
         producer.sendMessage(message, key);
         return ResponseEntity.ok().build();
         /**
+         * # Direct exchange
          * [x] Sent 'helloA' with key 'route.A'
          * [x] Queue A Received 'helloA'
          * ------------------------------------
          * [x] Sent 'helloB' with key 'route.B'
          * [x] Queue B Received 'helloB'
+         *
+         * # Fanout exchange
+         * [x] Sent 'hello-everyone' with key 'route.A'
+         * [x] Queue A Received 'hello-everyone'
+         * [x] Queue B Received 'hello-everyone'
          */
     }
 }

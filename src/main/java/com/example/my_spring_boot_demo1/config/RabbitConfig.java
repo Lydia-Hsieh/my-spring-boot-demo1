@@ -3,6 +3,7 @@ package com.example.my_spring_boot_demo1.config;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,18 +29,36 @@ public class RabbitConfig {
     /**
      * direct exchange
      */
+//    @Bean
+//    public DirectExchange directExchange() {
+//        return new DirectExchange(EXCHANGE_NAME);
+//    }
+//
+//    @Bean
+//    public Binding bindingA(Queue queueA, DirectExchange exchange) {
+//        return BindingBuilder.bind(queueA).to(exchange).with("route.A");
+//    }
+//
+//    @Bean
+//    public Binding bindingB(Queue queueB, DirectExchange exchange) {
+//        return BindingBuilder.bind(queueB).to(exchange).with("route.B");
+//    }
+
+    /**
+     * fanout exchange
+     */
     @Bean
-    public DirectExchange directExchange() {
-        return new DirectExchange(EXCHANGE_NAME);
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(EXCHANGE_NAME);
     }
 
     @Bean
-    public Binding bindingA(Queue queueA, DirectExchange exchange) {
-        return BindingBuilder.bind(queueA).to(exchange).with("route.A");
+    public Binding bindingFanoutA(Queue queueA, FanoutExchange exchange) {
+        return BindingBuilder.bind(queueA).to(exchange);
     }
 
     @Bean
-    public Binding bindingB(Queue queueB, DirectExchange exchange) {
-        return BindingBuilder.bind(queueB).to(exchange).with("route.B");
+    public Binding bindingFanoutB(Queue queueB, FanoutExchange exchange) {
+        return BindingBuilder.bind(queueB).to(exchange);
     }
 }
