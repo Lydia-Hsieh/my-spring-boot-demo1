@@ -26,6 +26,13 @@ spring:
     basename: i18n/messages
     encoding: UTF-8
 
+  ## Rabbit MQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 ## MyBatis
 mybatis:
   type-aliases-package: com.example.my_spring_boot_demo1.dao.mybatis
