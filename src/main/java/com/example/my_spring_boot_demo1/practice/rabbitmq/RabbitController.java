@@ -1,5 +1,6 @@
 package com.example.my_spring_boot_demo1.practice.rabbitmq;
 
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,13 @@ public class RabbitController {
          * [x] Queue B Received 'hello'
          * ------------------------------------
          * [x] Sent 'hello' with key 'route.one.two'
+         * [x] Queue B Received 'hello'
+         *
+         * # Headers exchange
+         * [x] Sent 'hello' with key 'A'
+         * [x] Queue A Received 'hello'
+         * ------------------------------------
+         * [x] Sent 'hello' with key 'B'
          * [x] Queue B Received 'hello'
          */
     }

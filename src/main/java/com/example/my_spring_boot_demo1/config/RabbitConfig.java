@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.HeadersExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
@@ -30,20 +31,20 @@ public class RabbitConfig {
     /**
      * direct exchange
      */
-//    @Bean
-//    public DirectExchange directExchange() {
-//        return new DirectExchange(EXCHANGE_NAME);
-//    }
-//
-//    @Bean
-//    public Binding bindingA(Queue queueA, DirectExchange exchange) {
-//        return BindingBuilder.bind(queueA).to(exchange).with("route.A");
-//    }
-//
-//    @Bean
-//    public Binding bindingB(Queue queueB, DirectExchange exchange) {
-//        return BindingBuilder.bind(queueB).to(exchange).with("route.B");
-//    }
+    @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange(EXCHANGE_NAME);
+    }
+
+    @Bean
+    public Binding bindingA(Queue queueA, DirectExchange exchange) {
+        return BindingBuilder.bind(queueA).to(exchange).with("route.A");
+    }
+
+    @Bean
+    public Binding bindingB(Queue queueB, DirectExchange exchange) {
+        return BindingBuilder.bind(queueB).to(exchange).with("route.B");
+    }
 
     /**
      * fanout exchange
@@ -66,18 +67,36 @@ public class RabbitConfig {
     /**
      * topic exchange
      */
-    @Bean
-    public TopicExchange topicExchange() {
-        return new TopicExchange(EXCHANGE_NAME);
-    }
+//    @Bean
+//    public TopicExchange topicExchange() {
+//        return new TopicExchange(EXCHANGE_NAME);
+//    }
+//
+//    @Bean
+//    public Binding bindingTopicA(Queue queueA, TopicExchange exchange) {
+//        return BindingBuilder.bind(queueA).to(exchange).with("route.*");
+//    }
+//
+//    @Bean
+//    public Binding bindingTopicB(Queue queueB, TopicExchange exchange) {
+//        return BindingBuilder.bind(queueB).to(exchange).with("route.#");
+//    }
 
-    @Bean
-    public Binding bindingTopicA(Queue queueA, TopicExchange exchange) {
-        return BindingBuilder.bind(queueA).to(exchange).with("route.*");
-    }
-
-    @Bean
-    public Binding bindingTopicB(Queue queueB, TopicExchange exchange) {
-        return BindingBuilder.bind(queueB).to(exchange).with("route.#");
-    }
+    /**
+     * headers exchange
+     */
+//    @Bean
+//    public HeadersExchange headersExchange() {
+//        return new HeadersExchange(EXCHANGE_NAME);
+//    }
+//
+//    @Bean
+//    public Binding bindingHeadersA(Queue queueA, HeadersExchange exchange) {
+//        return BindingBuilder.bind(queueA).to(exchange).where("type").matches("A");
+//    }
+//
+//    @Bean
+//    public Binding bindingHeadersB(Queue queueB, HeadersExchange exchange) {
+//        return BindingBuilder.bind(queueB).to(exchange).where("type").matches("B");
+//    }
 }
