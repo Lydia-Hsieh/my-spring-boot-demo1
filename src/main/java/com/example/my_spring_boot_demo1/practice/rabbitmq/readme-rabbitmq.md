@@ -33,7 +33,7 @@ public Binding bindingB(Queue queueB, FanoutExchange exchange) {
 
 3. TopicExchange（模糊匹配）
 - pattern:
-  - `#` 表示任何字元 (0或多)
-  - `*` 表示任何"一個"字元
+  - `#` 表示任何字 (0或多)
+  - `*` 表示任何"一個"字
 
 4. HeadersExchange（依 header 條件）

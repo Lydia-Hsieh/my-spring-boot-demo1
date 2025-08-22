@@ -38,6 +38,14 @@ public class RabbitController {
          * [x] Sent 'hello-everyone' with key 'route.A'
          * [x] Queue A Received 'hello-everyone'
          * [x] Queue B Received 'hello-everyone'
+         *
+         *　# Topic exchange
+         * [x] Sent 'hello' with key 'route.one'
+         * [x] Queue A Received 'hello'
+         * [x] Queue B Received 'hello'
+         * ------------------------------------
+         * [x] Sent 'hello' with key 'route.one.two'
+         * [x] Queue B Received 'hello'
          */
     }
 }
